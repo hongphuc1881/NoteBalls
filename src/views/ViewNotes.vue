@@ -3,32 +3,64 @@
         <div class="has-background-grey-light p-3 mt-3 is-rounded">
             <div class="field">
                 <div class="control">
-                    <textarea class="textarea" type="text" placeholder="Text input"> </textarea>
+                    <textarea
+                        v-model="noteInput"
+                        ref="noteInputRef"
+                        class="textarea"
+                        type="text"
+                        placeholder="Text input"
+                    >
+                    </textarea>
                 </div>
             </div>
 
             <div class="field is-grouped">
                 <div class="control">
-                    <button class="button is-link">Submit</button>
-                </div>
-                <div class="control">
-                    <button class="button is-link is-light">Cancel</button>
+                    <button class="button is-link" @click="addNote" :disabled="!noteInput.trim().length">Add</button>
                 </div>
             </div>
         </div>
-        <div class="notes" v-for="i in 3">
-            <div class="card my-3">
-                <div class="card-content">
-                    <div class="content">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-                    </div>
-                </div>
-                <footer class="card-footer">
-                    <a href="#" class="card-footer-item">Save</a>
-                    <a href="#" class="card-footer-item">Edit</a>
-                    <a href="#" class="card-footer-item">Delete</a>
-                </footer>
-            </div>
-        </div>
+        <Note @on-delete-note="deleteNote" :note="note" class="notes" v-for="note in notes" :key="note.id" />
     </div>
 </template>
+
+<script setup>
+import Note from '@/components/notes/Note.vue';
+import { ref } from 'vue';
+
+const noteInput = ref('');
+const noteInputRef = ref(null);
+const notes = ref([
+    {
+        id: 'id1',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.',
+    },
+    {
+        id: 'id2',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.',
+    },
+    {
+        id: 'id3',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.',
+    },
+]);
+
+const addNote = () => {
+    const currentTime = new Date().getTime();
+    const id = currentTime.toString();
+
+    const note = {
+        id,
+        content: noteInput.value.trim(),
+    };
+
+    notes.value.unshift(note);
+
+    noteInput.value = '';
+    noteInputRef.value.focus();
+};
+
+const deleteNote = (id) => {
+    notes.value = notes.value.filter((item) => id !== item.id);
+};
+</script>
