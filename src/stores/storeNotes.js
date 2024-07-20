@@ -1,3 +1,4 @@
+import router from '@/router';
 import { defineStore } from 'pinia';
 
 export const useNotesStore = defineStore('counter', {
@@ -33,5 +34,24 @@ export const useNotesStore = defineStore('counter', {
         deleteNote(id) {
             this.notes = this.notes.filter((item) => item.id !== id);
         },
+        updateNote(id, content) {
+            const index = this.notes.findIndex((item) => item.id == id);
+            this.notes[index].content = content;
+        },
+    },
+    getters: {
+        getContentNoteDetail: (state) => {
+            return (id) => {
+                const found = state.notes.find((note) => note.id == id);
+
+                return found ? found.content : router.push('/pagenotfound');
+            };
+        },
+
+        getTotalNotesCount: (state) => state.notes.length,
+        getTotalCharacter: (state) =>
+            state.notes.reduce((acc, item) => {
+                return (acc += item.content.length);
+            }, 0),
     },
 });

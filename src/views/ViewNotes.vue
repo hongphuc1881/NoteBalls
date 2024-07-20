@@ -1,6 +1,6 @@
 <template>
     <div>
-        <AddEditNote v-model="noteInput" ref="noteInputRef">
+        <AddEditNote v-model="noteInput" ref="noteInputRef" placeholder="Add new note">
             <template #buttons>
                 <button class="button is-link" @click="addNote" :disabled="!noteInput.trim().length">Add</button>
             </template>
