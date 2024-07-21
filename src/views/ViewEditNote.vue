@@ -2,7 +2,7 @@
     <AddEditNote v-model="noteContent" ref="noteInputRef" label="Edit Note" placeholder="">
         <template #buttons>
             <button class="button mr-2" @click="$router.push('/')">Cancel</button>
-            <button class="button is-link" :disabled="!noteContent.trim().length" @click="updateNote">Save</button>
+            <button class="button is-link" @click="updateNote">Save</button>
         </template>
     </AddEditNote>
 </template>

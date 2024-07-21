@@ -13,6 +13,7 @@
                     aria-expanded="false"
                     data-target="navbarBasicExample"
                     @click="onToggleMobileNav"
+                    ref="mobileNavRef"
                     :class="{ 'is-active': showMobileNav }"
                 >
                     <span aria-hidden="true"></span>
@@ -37,10 +38,14 @@
 </template>
 
 <script setup>
+import { onClickOutside } from '@vueuse/core';
 import { computed, ref } from 'vue';
 
 const showMobileNav = ref(false);
+const mobileNavRef = ref(null);
 const onToggleMobileNav = computed(() => {
     showMobileNav.value = !showMobileNav.value;
 });
+
+onClickOutside(mobileNavRef, () => (showMobileNav.value = false));
 </script>
