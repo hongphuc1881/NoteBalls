@@ -4,12 +4,12 @@
             <div v-if="label" class="has-text-white mb-3">{{ label }}</div>
             <div class="control">
                 <textarea
-                    ref="textareaRef"
                     :value="modelValue"
                     @input="$emit('update:modelValue', $event.target.value)"
                     class="textarea"
                     type="text"
                     :placeholder="placeholder"
+                    v-autofocus
                 >
                 </textarea>
             </div>
@@ -24,9 +24,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { vAutofocus } from '@/directives/vAutofocus';
 
-const textareaRef = ref(null);
 const props = defineProps({
     modelValue: {
         type: String,
@@ -42,12 +41,4 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-
-const focusTextarea = () => {
-    textareaRef.value.focus();
-};
-
-defineExpose({
-    focusTextarea,
-});
 </script>
