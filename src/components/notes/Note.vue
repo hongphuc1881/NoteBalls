@@ -5,7 +5,10 @@
                 <div class="content">
                     {{ note.content }}
                 </div>
-                <div class="has-text-right has-text-grey-light">{{ characterLength }}</div>
+                <div class="has-text-right has-text-grey-light">
+                    <span>{{ dateFormatted }}</span> |
+                    <span>{{ characterLength }}</span>
+                </div>
             </div>
             <footer class="card-footer">
                 <RouterLink :to="`/edit/${note.id}`" class="card-footer-item">Edit</RouterLink>
@@ -18,7 +21,8 @@
 
 <script setup>
 import ModalDeleteNote from '@/components/notes/ModalDeleteNote.vue';
-import { computed, defineProps, ref } from 'vue';
+import { useDateFormat } from '@vueuse/core';
+import { computed, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
 const props = defineProps({
@@ -34,4 +38,6 @@ const characterLength = computed(() => {
     const desc = length > 1 ? 'characters' : 'character';
     return `${length} ${desc}`;
 });
+
+const dateFormatted = useDateFormat(new Date(parseInt(props.note.date)), 'YYYY-MM-DD HH:mm:ss');
 </script>
